@@ -1,0 +1,3 @@
+export DATABASE_URL=postgres:///$(whoami)
+export PGUSER=stefano
+export PGPASSWORD=stefano
