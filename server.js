@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-
+var session = require('express-session');
 var app = express();
 
 app.set('port', (process.env.PORT || 5000));
@@ -11,11 +11,17 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
 }));
 
+/* Initialize the session management */
+app.use(session({secret: 'ssshhhhh'}));
+
+/* To serve static JS to the webpages*/
+app.use(express.static(__dirname + '/webapp'));
+var router = express.Router();
+console.log(router);
+
 var pg = require('pg');
 
 var db;
-
-var donef;
 
 // Connect to the database before starting the application server.
 pg.connect(process.env.DATABASE_URL, function(err, client, done) {
@@ -100,11 +106,26 @@ app.delete("/api/contacts/:id", function(req, res) {
 });
 
 // application -------------------------------------------------------------
-app.get('/', function(req, res) {
+router.use(function timeLog(req, res, next) {
+    console.log('Time: ', Date.now());
+    next();
+});
+
+router.get('/', function(req, res) {
+    res.sendFile('index.html', { root: path.join(__dirname, '.') });// load the single view file (angular will handle the page changes on the front-end)
+});
+router.get('/ciccio', function(req, res) {
     res.sendFile('index.html', { root: path.join(__dirname, '.') });// load the single view file (angular will handle the page changes on the front-end)
 });
 
-app.get('/webapp/app.module.js', function(req, res) {
+// define the about route
+router.get('/home', function(req, res) {
+    res.sendFile('home.html', { root: path.join(__dirname, './webapp/components/home/view') });// load the single view file (angular will handle the page changes on the front-end)
+});
+app.use(router);
+module.exports = router;
+
+/*app.get('/webapp/app.module.js', function(req, res) {
     req.
     res.sendFile('app.module.js', { root: path.join(__dirname, './webapp') });// load the single view file (angular will handle the page changes on the front-end)
-});
+});*/
