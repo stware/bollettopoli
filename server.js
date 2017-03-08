@@ -16,6 +16,11 @@ app.use(session({secret: 'ssshhhhh'}));
 
 /* To serve static JS to the webpages*/
 app.use(express.static(__dirname + '/webapp'));
+app.use('/js',express.static(__dirname + '/webapp/resources/js'));
+app.use('/home',express.static(__dirname + '/webapp/components/home/view'));
+app.use('/todo',express.static(__dirname + '/webapp/components/todo/view'));
+app.use('/about',express.static(__dirname + '/webapp/components/about/view'));
+
 var router = express.Router();
 console.log(router);
 
