@@ -8,7 +8,7 @@ var app = require('../../server.js');
 
 
 const Pool = require('pg-pool');
-const url = require('url')
+const url = require('url');
 
 const params = url.parse(process.env.DATABASE_URL);
 console.log(params);
@@ -22,7 +22,7 @@ const config = {
     database: params.pathname.split('/')[1],
     ssl: true
 };
-
+console.log('config->',config);
 var configuration = require('../../config'); // get our config file
 app.set('superSecret', configuration.secret); // secret variable
 
