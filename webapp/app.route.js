@@ -10,12 +10,14 @@ angular.module('index').config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
             url: "/home",
-            templateUrl: "/home/home.html"
+            templateUrl: "/home/home.html",
+            controller: 'todoMainController'
         }).state('todo', {
         url: "/todo",
         templateUrl: "/todo/todo.html"
         }).state('about', {
             url: "/about",
             templateUrl: "/about/about.html"
+
         });
 });

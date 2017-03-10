@@ -2,11 +2,11 @@
  * Created by stefano on 05/03/17.
  */
 // public/core.js
-var indexModule = angular.module('index', ['ui.router']);
+var indexModule = angular.module('index', ['ui.router','todoController','todoService']);
 
 indexModule.controller('mainController',['$scope','$http',function($scope, $http) {
     $scope.formData = {};
-
+/*
     // when landing on the page, get all todos and show them
     $http.get('../api/contacts').then(function(response) {
             $scope.todos = response.data.rows;
@@ -37,6 +37,6 @@ indexModule.controller('mainController',['$scope','$http',function($scope, $http
                 console.log('Error: ' + response);
             });
     };
-
+*/
 }]);
 
