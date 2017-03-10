@@ -12,7 +12,7 @@ const url = require('url');
 
 const params = url.parse(process.env.DATABASE_URL);
 console.log(params);
-const auth = params.auth.split(':');
+const auth = params.auth ? params.auth.split(':') : ':'.split(':');
 
 const config = {
     user: auth[0],
@@ -34,9 +34,9 @@ const pool = new Pool(config);
 var User = require("../model/user.js");
 
 var router = express.Router();
-console.log(router);
+//console.log(router);
 
-var bodyParser = require('body-parser')
+var bodyParser = require('body-parser');
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -47,7 +47,7 @@ function handleError(res, reason, message, code) {
     res.status(code || 500).json({"error": message});
 }
 
-router.post('/api/authenticate', function(req, res) {
+router.post('/authenticate', function(req, res) {
     pool.connect().then(
         function (client) {
             var username = req.body.username;
@@ -91,7 +91,7 @@ router.post('/api/authenticate', function(req, res) {
 });
 
 router.use(function(req, res, next) {
-
+    console.log('VERIFY TOKEN');
     // check header or url parameters or post parameters for token
     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
@@ -121,7 +121,7 @@ router.use(function(req, res, next) {
     }
 });
 
-router.get("/api/users", function (req, res) {
+router.get("/users", function (req, res) {
   pool.connect().then(
       function (client) {
           client.query('SELECT * FROM users', function (err, result) {
@@ -190,4 +190,4 @@ router.get("/api/users", function (req, res) {
 
 */
 
-app.use('/api/users', router);
+app.use('/api', router);

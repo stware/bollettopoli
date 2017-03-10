@@ -8,7 +8,7 @@ const url = require('url')
 
 const params = url.parse(process.env.DATABASE_URL);
 console.log(params);
-const auth = params.auth.split(':');
+const auth = params.auth ? params.auth.split(':') : ':'.split(':');
 
 const config = {
     user: auth[0],
