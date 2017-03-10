@@ -190,4 +190,4 @@ router.get("/api/users", function (req, res) {
 
 */
 
-app.use('/api', router);
+app.use('/api/users', router);
