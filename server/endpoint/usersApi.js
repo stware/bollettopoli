@@ -12,7 +12,14 @@ const url = require('url');
 
 const params = url.parse(process.env.DATABASE_URL);
 console.log(params);
-const auth = params.auth ? params.auth.split(':') : ':'.split(':');
+
+if (params.auth.length>0) {
+    const auth = params.auth.split(':');
+    console.log('Heroku remote database');
+} else {
+    const auth = ':'.split(':');
+    console.log('Local dev database');
+}
 
 const config = {
     user: auth[0],
