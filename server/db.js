@@ -1,4 +1,4 @@
-var genericPool = require('generic-pool')
+/*var genericPool = require('generic-pool')
 var util = require('util')
 var EventEmitter = require('events').EventEmitter
 var objectAssign = require('object-assign')

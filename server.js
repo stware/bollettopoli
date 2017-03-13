@@ -2,6 +2,11 @@ var express = require('express');
 var path = require('path');
 var app = module.exports = express();
 
+
+var auth = require("./server/auth.js")();
+
+app.use(auth.initialize());
+
 // PUBLIC API
 require('./server/endpoint/todosApi.js');
 
@@ -23,7 +28,6 @@ app.use(morgan('dev'));
 
 var router = express.Router();
 //console.log(router);
-
 
 
 

@@ -3,6 +3,9 @@
  */
 module.exports = {
 
-    'secret': 'ilovescotchyscotch'
+    jwtSecret: 'ilovescotchyscotch',
+    jwtSession: {
+        session: false
+    }
 
 };
