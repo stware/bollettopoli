@@ -1,9 +1,9 @@
 /**
  * Created by stefano on 05/03/17.
  */
-var todo = angular.module('todoController',['ui.router']);
+var todo = angular.module('todoModule',['ui.router']);
 
-todo.controller('todoMainController',['$scope','$http','Todos',function($scope, $http,Todos) {
+todo.controller('todoController',['$scope','$http','Todos',function($scope, $http,Todos) {
     $scope.formData = {};
     console.log('todoController registered');
     // when landing on the page, get all todos and show them

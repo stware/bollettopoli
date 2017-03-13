@@ -69,6 +69,9 @@ app.use('/home/c',express.static(__dirname + '/webapp/components/home/controller
 app.use('/todo',express.static(__dirname + '/webapp/components/todo/view'));
 app.use('/todo/s',express.static(__dirname + '/webapp/components/todo/service'));
 app.use('/todo/c',express.static(__dirname + '/webapp/components/todo/controller'));
+app.use('/auth',express.static(__dirname + '/webapp/components/auth/view'));
+app.use('/auth/s',express.static(__dirname + '/webapp/components/auth/service'));
+app.use('/auth/c',express.static(__dirname + '/webapp/components/auth/controller'));
 app.use('/about',express.static(__dirname + '/webapp/components/about/view'));
 
 var server = app.listen(process.env.PORT || 8080, function () {
