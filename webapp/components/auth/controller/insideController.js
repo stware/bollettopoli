@@ -2,11 +2,14 @@
  * Created by sturrini on 13/03/2017.
  */
 
-var insideModule = angular.module('insideModule',['ui.router']);
+var insideModule = angular.module('insideModule',['ui.router','dataModel']);
 
-insideModule.controller('insideController',[ '$scope', 'AuthService','API_ENDPOINT', '$http', '$state',function($scope, AuthService, API_ENDPOINT, $http, $state) {
+insideModule.controller('insideController',[ '$scope', 'AuthService','API_ENDPOINT', '$http', '$state','dataModelService',function($scope, AuthService, API_ENDPOINT, $http, $state,dataModelService) {
 
-    console.log($scope);
+
+    $scope.loggedUser = dataModelService.loggedUser;
+    console.log($scope.loggedUser);
+
     $scope.destroySession = function() {
         AuthService.logout();
     };

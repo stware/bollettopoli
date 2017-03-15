@@ -1,7 +1,7 @@
 /**
  * Created by stefano on 05/03/17.
  */
-var todo = angular.module('todoModule',['ui.router']);
+var todo = angular.module('todoModule',['ui.router','todoService']);
 
 todo.controller('todoController',['$scope','$http','Todos',function($scope, $http,Todos) {
     $scope.formData = {};

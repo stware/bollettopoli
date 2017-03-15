@@ -2,27 +2,22 @@
  * Created by sturrini on 13/03/2017.
  */
 
-/*var registerModule = angular.module('registerModule',['ui.router']);
+var registerModule = angular.module('registerModule',['ui.router','authService','dataModel']);
 
-registerModule.controller('registerController', function($scope, AuthService, $ionicPopup, $state) {
+registerModule.controller('registerController', ['$scope', 'AuthService', '$state',function($scope, AuthService, $state) {
     $scope.user = {
         name: '',
-        password: ''
+        password: '',
+        username:''
     };
 
     $scope.signup = function() {
+        console.log('User to be registered:',$scope.user);
         AuthService.register($scope.user).then(function(msg) {
-            $state.go('outside.login');
-            var alertPopup = $ionicPopup.alert({
-                title: 'Register success!',
-                template: msg
-            });
+            console.log(msg);
+            $scope.successMsg = msg;
         }, function(errMsg) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Register failed!',
-                template: errMsg
-            });
+            $scope.errMsg = errMsg;
         });
     };
-});
-*/
+}]);

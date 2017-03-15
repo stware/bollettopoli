@@ -42,6 +42,10 @@ function handleError(res, reason, message, code) {
             else {
 
                 var arrayLength = result.rows.length;
+                if (arrayLength == 0) {
+                    res.json({success: false, message: 'Authentication failed. User not found.'});
+                    return;
+                }
                 if (arrayLength > 1) {
                     res.json({success: false, message: 'Authentication failed. Too many users found.'});
                     return;
@@ -71,38 +75,7 @@ function handleError(res, reason, message, code) {
             }
         });
     });
-    /*
-     router.use(function(req, res, next) {
-     console.log('VERIFY TOKEN');
-     // check header or url parameters or post parameters for token
-     var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-     // decode token
-     if (token) {
-
-     // verifies secret and checks exp
-     jwt.verify(token, app.get('superSecret'), function(err, decoded) {
-     if (err) {
-     return res.json({ success: false, message: 'Failed to authenticate token.' });
-     } else {
-     // if everything is good, save to request for use in other routes
-     req.decoded = decoded;
-     next();
-     }
-     });
-
-     } else {
-
-     // if there is no token
-     // return an error
-     return res.status(403).send({
-     success: false,
-     message: 'No token provided.'
-     });
-
-     }
-     });
-     */
     router.get("/users",  auth.authenticate(), function (req, res) {
         User.findAll(function (err, result) {
             if (err) {
@@ -148,6 +121,41 @@ function handleError(res, reason, message, code) {
         });
     });
 
+router.post('/signup', function(req, res) {
+    if (!req.body.username || !req.body.password) {
+        res.json({success: false, message: 'Please pass username and password.'});
+    } else {
+        var newUser = new User({
+            name: req.body.name,
+            surname: req.body.surname,
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email
+        });
+        User.findByUsernamePassword(newUser.data.username, newUser.data.password, function (err, result) {
+            if (err) {
+                res.json({success: false, message: 'Signup failed. Error registering user.'});
+            }
+            else {
+
+                var arrayLength = result.rows.length;
+                console.log('result length:',arrayLength);
+                if (arrayLength > 0) {
+                    return res.json({success: false, message: 'Signup failed. User already exists'});
+                }
+                // save the user
+                User.save(newUser,function(err,result) {
+                    if (err) {
+                        return res.json({success: false, message: 'Signup failed. Error registering user.'});
+                    } else {
+                        return res.json({success: true, message: 'Successful created new user.'});
+                    }
+                });
+            }
+        });
+
+    }
+});
     /*
      app.delete("/api/users/:id", function (req, res) {
      db.query('delete from test_table where id = $1',

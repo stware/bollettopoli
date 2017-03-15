@@ -27,26 +27,13 @@ angular.module('index').config(function($stateProvider, $urlRouterProvider) {
             url: '/inside',
             templateUrl: 'auth/profile.html',
             controller: 'insideController'
-        })/*.state('outside', {
-            url: '/outside',
-            abstract: true,
-            templateUrl: '/auth/outside.html'
         })
-        .state('outside.login', {
-            url: '/login',
-            templateUrl: 'auth/login.html',
-            controller: 'loginController'
-        })
-        .state('outside.register', {
+        .state('register', {
             url: '/register',
             templateUrl: 'auth/register.html',
             controller: 'registerController'
         })
-        .state('inside', {
-            url: '/inside',
-            templateUrl: 'auth/profile.html',
-            controller: 'insideController'
-        })*/;
+        ;
 })
     .run(function ($rootScope, $state, AuthService, AUTH_EVENTS) {
         $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {

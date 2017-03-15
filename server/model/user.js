@@ -25,6 +25,7 @@ var schema = {
         id: null,
         name: null,
         surname: null,
+        username: null,
         email: null,
         password: null
     }
@@ -36,16 +37,16 @@ var User = function (data) {
     this.data = this.sanitize(data);
 }
 
-User.prototype.data = {}
+User.prototype.data = {};
 
 User.prototype.sanitize = function (data) {
     data = data || {};
     return _.pick(_.defaults(data, schema.user), _.keys(schema.user));
-}
+};
 
 User.prototype.changeName = function (name) {
     this.data.name = name;
-}
+};
 
 User.prototype.get = function (name) {
     return this.data[name];
@@ -53,29 +54,48 @@ User.prototype.get = function (name) {
 
 User.prototype.set = function (name, value) {
     this.data[name] = value;
-}
+};
 
 User.findByUsernamePassword = function (username,password, callback) {
     pool.connect().then(
         function (client) {
            console.log('username:',username,'password:',password);
-            client.query('SELECT * FROM users where username = $1', [username], callback);
+            client.query('SELECT * FROM users where username = $1 and password = $2', [username,password], callback);
+            client.release();
         });
-}
+
+};
 
 User.findById = function (id, callback) {
     pool.connect().then(
         function (client) {
             console.log('id:',id);
             client.query('SELECT * FROM users where id = $1', [id], callback);
+
         });
-}
+};
 
 
 User.findAll = function (callback) {
     pool.connect().then(
         function (client) {
             client.query('SELECT * FROM users', callback);
+
         });
-}
+
+
+};
+
+
+User.save = function (user,callback) {
+
+    pool.connect().then(
+        function (client) {
+            // Get a Postgres client from the connection pool
+            client.query('INSERT INTO users(name,username,password,surname,email) values($1,$2,$3,$4,$5)',
+                [user.data.name,user.data.username,user.data.password,user.data.surname,user.data.email],callback);
+            client.release();
+        });
+};
+
 module.exports = User;

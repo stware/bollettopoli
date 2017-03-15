@@ -46,9 +46,9 @@ angular.module('authService', [])
             return $q(function(resolve, reject) {
                 $http.post(API_ENDPOINT.url + '/signup', user).then(function(result) {
                     if (result.data.success) {
-                        resolve(result.data.msg);
+                        resolve(result.data.message);
                     } else {
-                        reject(result.data.msg);
+                        reject(result.data.message);
                     }
                 });
             });
@@ -57,11 +57,13 @@ angular.module('authService', [])
         var login = function(user) {
             return $q(function(resolve, reject) {
                 $http.post(API_ENDPOINT.url + '/authenticate', user).then(function(result) {
+                    console.log(result.data);
                     if (result.data.success) {
                         storeUserCredentials(result.data.token);
-                        resolve(result.data.msg);
+
+                        resolve(result.data.message);
                     } else {
-                        reject(result.data.msg);
+                        reject(result.data.message);
                     }
                 });
             });
