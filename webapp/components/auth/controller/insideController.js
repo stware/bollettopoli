@@ -6,13 +6,13 @@ var insideModule = angular.module('insideModule',['ui.router']);
 
 insideModule.controller('insideController',[ '$scope', 'AuthService','API_ENDPOINT', '$http', '$state',function($scope, AuthService, API_ENDPOINT, $http, $state) {
 
-    console.log($scope);
+    console.log($scope.user);
     $scope.destroySession = function() {
         AuthService.logout();
     };
 
     $scope.getInfo = function() {
-        $http.get(API_ENDPOINT.url + '/memberinfo').then(function(result) {
+        $http.get(API_ENDPOINT.url + '/users').then(function(result) {
             $scope.memberinfo = result.data.msg;
         });
     };
@@ -21,4 +21,8 @@ insideModule.controller('insideController',[ '$scope', 'AuthService','API_ENDPOI
         AuthService.logout();
         $state.go('home');
     };
+
+    return {
+
+    }
 }]);
