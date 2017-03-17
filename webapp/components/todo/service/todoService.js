@@ -7,8 +7,9 @@ angular.module('todoService', [])
 // each function returns a promise object
     .factory('Todos', function($http) {
         return {
-            get : function() {
-                return $http.get('/api/todos');
+            get : function(id) {
+                console.log('Authorization?',$http.defaults.headers.common.Authorization);
+                return $http.get('/api/todos/'+id);
             },
             create : function(todoData) {
                 return $http.post('/api/todos', todoData);

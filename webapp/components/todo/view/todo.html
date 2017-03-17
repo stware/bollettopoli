@@ -11,9 +11,9 @@
         <div class="col-sm-4 col-sm-offset-4">
 
             <!-- LOOP OVER THE TODOS IN $scope.todos -->
-            <div class="checkbox" ng-repeat="todo in todos">
+            <div class="checkbox" ng-repeat="todo in todos.data">
                 <label>
-                    <input type="checkbox" ng-click="deleteTodo(todo.id)"> {{ todo.name }}
+                    <input type="checkbox" ng-click="deleteTodo(todo.data.id)"> {{ todo.data.text }}
                 </label>
             </div>
         </div>
@@ -26,7 +26,7 @@
                 <div class="form-group">
 
                     <!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-                    <input type="text" class="form-control input-lg text-center" placeholder="Insert the TODO here" ng-model="formData.name">
+                    <input type="text" class="form-control input-lg text-center" placeholder="Insert the TODO here" ng-model="formData.text">
                 </div>
 
                 <!-- createToDo() WILL CREATE NEW TODOS -->

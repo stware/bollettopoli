@@ -1,9 +1,10 @@
-CREATE TABLE test_table
+CREATE TABLE todos
 (
   id serial NOT NULL,
-  name text,
-  CONSTRAINT test_table_pkey PRIMARY KEY (id));
-
+  id_user integer,
+  text text,
+  priority integer,
+  CONSTRAINT todos_pkey PRIMARY KEY (id));
 
 CREATE TABLE users
 (

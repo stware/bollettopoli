@@ -102,7 +102,7 @@ function handleError(res, reason, message, code) {
      *    DELETE: deletes contact by id
      */
 
-    router.get("/users/:id",auth.authenticate(), function (req, res) {
+    router.get("/user/:id",auth.authenticate(), function (req, res) {
         var id = req.params.id;
         console.log('id to search:', id);
 
@@ -120,6 +120,32 @@ function handleError(res, reason, message, code) {
             }
         });
     });
+
+router.get("/users/:user",auth.authenticate(), function (req, res) {
+    console.log('user to search:', req.params.user);
+    var jsonObject = JSON.parse(req.params.user);
+    console.log('jsonobject:', jsonObject);
+    var user = new User(jsonObject);
+
+
+    User.findByUsernamePassword(user.data.username,user.data.password, function (err, result) {
+        if (err) {
+            handleError(res, err.message, 'Failed to get user ' + id, 500);
+        }
+        else {
+            console.log(result);
+            var arrayLength = result.rows.length;
+            if (arrayLength != 1) {
+                handleError(res, 'User not found', 'User not found', 500);
+            }
+            res.json({
+                success:true,
+                user:new User(result.rows[0]),
+                message:'User found!'
+            });
+        }
+    });
+});
 
 router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {

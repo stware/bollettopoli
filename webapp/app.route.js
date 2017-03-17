@@ -39,10 +39,10 @@ angular.module('index').config(function($stateProvider, $urlRouterProvider) {
         $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) {
             if (!AuthService.isAuthenticated()) {
                 console.log(next.name);
-               /* if (next.name !== 'outside.login' && next.name !== 'outside.register') {
+                if (next.name !== 'home' && next.name !== 'login' && next.name !== 'register') {
                     event.preventDefault();
-                    $state.go('index');
-                }*/
+                    $state.go('login');
+                }
             }
         });
     });

@@ -63,6 +63,8 @@ module.exports = router;
 /* To serve static JS to the webpages*/
 app.use(express.static(__dirname + '/webapp'));
 app.use('/js',express.static(__dirname + '/webapp/resources/js'));
+app.use('/css',express.static(__dirname + '/webapp/resources/css'));
+
 app.use('/home',express.static(__dirname + '/webapp/components/home/view'));
 app.use('/home/m',express.static(__dirname + '/webapp/components/home/module'));
 app.use('/home/c',express.static(__dirname + '/webapp/components/home/controller'));

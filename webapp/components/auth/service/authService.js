@@ -1,7 +1,7 @@
 /**
  * Created by stefano on 07/03/17.
  */
-angular.module('authService', [])
+angular.module('authService', ['dataModel'])
     .constant('AUTH_EVENTS', {
         notAuthenticated: 'auth-not-authenticated'
     })
@@ -10,7 +10,7 @@ angular.module('authService', [])
         url: '/api'
         //  For a simulator use: url: 'http://127.0.0.1:8080/api'
     })
-    .service('AuthService', function($q, $http, API_ENDPOINT) {
+    .service('AuthService', function($q, $http, API_ENDPOINT,dataModelService) {
         var LOCAL_TOKEN_KEY = 'yourTokenKey';
         var isAuthenticated = false;
         var authToken;
@@ -32,7 +32,7 @@ angular.module('authService', [])
             authToken = token;
 
             // Set the token as header for your requests!
-            $http.defaults.headers.common.Authorization = authToken;
+            $http.defaults.headers.common.Authorization = 'JWT '+authToken;
         }
 
         function destroyUserCredentials() {
@@ -69,6 +69,24 @@ angular.module('authService', [])
             });
         };
 
+        var getUserInfo = function(user) {
+            console.log('usr to search (frontend):',user);
+            return $q(function(resolve, reject) {
+                $http.get(API_ENDPOINT.url + '/users/'+ angular.toJson(user)).then(function(result) {
+                    console.log(result.data);
+                    if (result.data.success) {
+                        console.log('before:',dataModelService.loggedUser);
+                        console.log('user to datamodel:',result.data.user.data);
+                        dataModelService.loggedUser = result.data.user.data;
+
+                        resolve(result.data.message);
+                    } else {
+                        reject(result.data.message);
+                    }
+                });
+            });
+        };
+
         var logout = function() {
             destroyUserCredentials();
         };
@@ -79,7 +97,11 @@ angular.module('authService', [])
             login: login,
             register: register,
             logout: logout,
-            isAuthenticated: function() {return isAuthenticated;}
+            getUserInfo: getUserInfo,
+            isAuthenticated: function() {
+                console.log('isAuthenticated:',isAuthenticated);
+                return isAuthenticated;
+            }
         };
     })
 
