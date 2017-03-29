@@ -1,9 +1,32 @@
-<div ng-app="insideModule" ng-controller="insideController">
+<div ng-app="insideModule" class="col-sm-8 col-sm-offset-1" ng-controller="insideController">
     <h1>Profile</h1>
-<hr/>
+    <hr/>
 
-</div>
-<div><h2>Welcome, {{loggedUser.username}}!</h2></div>
-<div class="buttons">
-    <button type="submit" class="btn btn-primary" ng-click="logout()">Logout</button>
+    <div><h2>Welcome, {{loggedUser.username}}!</h2>
+    </div>
+
+    <div class="row">
+        <input type="input" class="form-control input-lg text-center" placeholder="Insert your name here"
+               ng-model="loggedUser.name">
+    </div>
+    <div class="row">
+        <input type="input" class="form-control input-lg text-center" placeholder="Insert your surname here"
+               ng-model="loggedUser.surname">
+    </div>
+    <div class="row">
+        <input type="input" class="form-control input-lg text-center" placeholder="Insert your username here"
+               ng-model="loggedUser.username">
+    </div>
+    <div class="row">
+        <input type="email" class="form-control input-lg text-center" placeholder="Insert your email here"
+               ng-model="loggedUser.email">
+    </div>
+    <div class="row">
+
+        <div class="buttons">
+            <button type="submit" class="btn" ng-click="logout()">Logout</button>
+            <button type="submit" class="btn btn-primary" ng-click="save()">Save Profile</button>
+        </div>
+    </div>
+
 </div>

@@ -69,7 +69,7 @@ Todo.findById = function (id, callback) {
         function (client) {
             console.log('id:',id);
             client.query('SELECT * FROM todos where id = $1', [id], callback);
-
+            client.release();
         });
 };
 
@@ -78,7 +78,7 @@ Todo.findAll = function (callback) {
     pool.connect().then(
         function (client) {
             client.query('SELECT * FROM todos', callback);
-
+            client.release();
         });
 
 

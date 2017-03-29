@@ -147,6 +147,28 @@ router.get("/users/:user",auth.authenticate(), function (req, res) {
     });
 });
 
+router.put("/users/:user",auth.authenticate(), function (req, res) {
+    console.log('user to save:', req.params.user);
+    var jsonObject = JSON.parse(req.params.user);
+    console.log('jsonobject:', jsonObject);
+    var user = new User(jsonObject);
+
+
+    User.update(user,function (err, result) {
+        if (err) {
+            handleError(res, err.message, 'Failed to save user ' + user.id, 500);
+        }
+        else {
+            console.log(result);
+            res.json({
+                success:true,
+                user:new User(user),
+                message:'User saved!'
+            });
+        }
+    });
+});
+
 router.post('/signup', function(req, res) {
     if (!req.body.username || !req.body.password) {
         res.json({success: false, message: 'Please pass username and password.'});

@@ -71,7 +71,7 @@ User.findById = function (id, callback) {
         function (client) {
             console.log('id:',id);
             client.query('SELECT * FROM users where id = $1', [id], callback);
-
+            client.release();
         });
 };
 
@@ -80,7 +80,7 @@ User.findAll = function (callback) {
     pool.connect().then(
         function (client) {
             client.query('SELECT * FROM users', callback);
-
+            client.release();
         });
 
 
@@ -97,5 +97,17 @@ User.save = function (user,callback) {
             client.release();
         });
 };
+
+User.update = function (user,callback) {
+    console.log('user to save',user);
+    pool.connect().then(
+        function (client) {
+            // Get a Postgres client from the connection pool
+            client.query('UPDATE users set name = $1,username = $2,password = $3,surname = $4,email = $5 where id = $6',
+                [user.data.name,user.data.username,user.data.password,user.data.surname,user.data.email,user.data.id],callback);
+            client.release();
+        });
+};
+
 
 module.exports = User;

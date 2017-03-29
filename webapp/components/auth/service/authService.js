@@ -17,7 +17,9 @@ angular.module('authService', ['dataModel'])
 
         function loadUserCredentials() {
             var token = window.localStorage.getItem(LOCAL_TOKEN_KEY);
-            if (token) {
+            var user = dataModelService.loggedUser;
+            console.log('user',user);
+            if (token && user) {
                 useCredentials(token);
             }
         }
@@ -28,6 +30,7 @@ angular.module('authService', ['dataModel'])
         }
 
         function useCredentials(token) {
+            console.log('use credentials');
             isAuthenticated = true;
             authToken = token;
 
@@ -69,6 +72,24 @@ angular.module('authService', ['dataModel'])
             });
         };
 
+        var saveProfile = function(user) {
+            return $q(function(resolve, reject) {
+                $http.put(API_ENDPOINT.url + '/users/'+ angular.toJson(user)).then(function(result) {
+                    console.log(result.data);
+                    if (result.data.success) {
+
+                        /**
+                         * TODO
+                         */
+
+                        resolve(result.data.message);
+                    } else {
+                        reject(result.data.message);
+                    }
+                });
+            });
+        };
+
         var getUserInfo = function(user) {
             console.log('usr to search (frontend):',user);
             return $q(function(resolve, reject) {
@@ -98,6 +119,7 @@ angular.module('authService', ['dataModel'])
             register: register,
             logout: logout,
             getUserInfo: getUserInfo,
+            saveProfile: saveProfile,
             isAuthenticated: function() {
                 console.log('isAuthenticated:',isAuthenticated);
                 return isAuthenticated;
